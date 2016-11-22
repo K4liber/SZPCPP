@@ -19,11 +19,18 @@ void listujPliki( const char * nazwa_sciezki, std::vector <boost::shared_ptr <Da
     }
 }
 
-int main() {
+int main(int argc, char * argv[]) {
 	// Wskaźniki do obiektów przechowujących dane
 	std::vector <boost::shared_ptr <DaneStat> > dane;
 	const char * nazwa_sciezki = "files";
-	listujPliki(nazwa_sciezki, &dane);
+	
+	if (argc > 1) {
+		const char * nazwa_sciezki_arg = argv[1];
+		listujPliki(nazwa_sciezki_arg, &dane);
+	} else {
+		const char * nazwa_sciezki = "files";
+		listujPliki(nazwa_sciezki, &dane);
+	}
 
 	// Rejestrujemy wtyczki
 	FabrykaRozkladow::rejestruj (&RozkladGaussa::kreator, 
@@ -34,23 +41,28 @@ int main() {
 		std::string("Rozklad Poissona"));
 	
 	//MENU
-	int wybor_pliku = 1;
-	int wybor_r = 1;
-	std::cout<<"Wybierz numer pliku z danymi i zatwierdz."<<std::endl;
-	for ( int ii=0;ii<dane.size();ii++ ) 
-		std::cout<<dane[ii].get()->nazwa()<<" ("<<ii+1<<")"<<std::endl;
-	std::cin>>wybor_pliku;
-	std::cout<<"Wybierz numer rozkladu i zatwierdz."<<std::endl;
-	for ( int ii=1;ii<=FabrykaRozkladow::ilosc();ii++ ) 
-		std::cout<<FabrykaRozkladow::nazwa(ii)<<" ("<<ii<<")"<<std::endl;
-	std::cin>>wybor_r;
-	// Tworzy miziadelko do obliczania statystyk
-	std::shared_ptr <Rozklad> rozkl (FabrykaRozkladow::utworz (wybor_r, 
-		dane[wybor_pliku-1].get()->wczytajDane ()));
-	ParametryRozkladu params = rozkl.get()->oblicz();
-	std::cout<<FabrykaRozkladow::nazwa(wybor_r)<<" - parametry: "<<std::endl;
-	for ( auto iterator = params.begin(); iterator != params.end(); iterator++) {
-		std::cout<<iterator->first<<":\t"<<iterator->second<<std::endl;
+	int close = 0;
+	while (!close) {
+		int wybor_pliku = 1;
+		int wybor_r = 1;
+		std::cout<<"Wybierz numer pliku z danymi i zatwierdz."<<std::endl;
+		for ( int ii=0;ii<dane.size();ii++ ) 
+			std::cout<<dane[ii].get()->nazwa()<<" ("<<ii+1<<")"<<std::endl;
+		std::cin>>wybor_pliku;
+		std::cout<<"Wybierz numer rozkladu i zatwierdz."<<std::endl;
+		for ( int ii=1;ii<=FabrykaRozkladow::ilosc();ii++ ) 
+			std::cout<<FabrykaRozkladow::nazwa(ii)<<" ("<<ii<<")"<<std::endl;
+		std::cin>>wybor_r;
+		// Tworzy miziadelko do obliczania statystyk
+		std::shared_ptr <Rozklad> rozkl (FabrykaRozkladow::utworz (wybor_r, 
+			dane[wybor_pliku-1].get()->wczytajDane ()));
+		ParametryRozkladu params = rozkl.get()->oblicz();
+		std::cout<<FabrykaRozkladow::nazwa(wybor_r)<<" - parametry: "<<std::endl;
+		for ( auto iterator = params.begin(); iterator != params.end(); iterator++) {
+			std::cout<<iterator->first<<":\t"<<iterator->second<<std::endl;
+		}
+		std::cout<<"Wpisz 0 jesli chcesz kontynuowac, 1 zeby wyjsc:"<<std::endl;
+		std::cin>>close;
 	}
 	
 	return 0;

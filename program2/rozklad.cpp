@@ -57,7 +57,8 @@ ParametryRozkladu RozkladLorentza::oblicz() const{
 	odchylenie = pow(odchylenie, 0.5);
 	
 	ParametryRozkladu parametry;
-	parametry.insert( std::pair<std::string,float>("srednia", srednia) );
+	parametry["srednia"] = srednia;
+	//parametry.insert( std::pair<std::string,float>("srednia", srednia) );
 	parametry.insert( std::pair<std::string,float>("odchylenie", odchylenie) );
 	
 	return parametry;

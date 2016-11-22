@@ -31,19 +31,21 @@ std::vector <float> & DaneStat::wczytajDane() {
 std::vector <float> & DaneStatProxy::wczytajDane() {
 	if (!dane_) {
 		dane_ = new DaneStatReal(nazwa_);
-		return dane_->wczytajDane();
-	}
+	} 
+	return dane_->wczytajDane();
 }
 
 std::vector <float> & DaneStatReal::wczytajDane() {
-	char charLine[20];
-	std::string line;
-	std::string path = "files/" + nazwa_;
-	std::ifstream plik;
-	plik.open(path.c_str(), std::ifstream::in);
-    if ( plik.good() ) {
-		while ( std::getline(plik, line) ) {
-			vectorData.push_back(atof(line.c_str()));
+	if ( vectorData.empty() ) {
+		char charLine[20];
+		std::string line;
+		std::string path = "files/" + nazwa_;
+		std::ifstream plik;
+		plik.open(path.c_str(), std::ifstream::in);
+		if ( plik.good() ) {
+			while ( std::getline(plik, line) ) {
+				vectorData.push_back(atof(line.c_str()));
+			}
 		}
 	}
 	return vectorData;

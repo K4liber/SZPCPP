@@ -1,0 +1,11 @@
+## Program testowy
+# Rampa od 25C do 100C z szybkoscia 5C/s
+rampa 25.0 100.0 5.0
+# Wygrzewanie izotermiczne przez 5s
+izotermiczne 5
+# Nagly skok do 200.5C
+skocz 200.5
+# Wygrzewanie izotermiczne przez 5s
+izotermiczne 5.0
+# Rampa od 200.5C do 25C z szybkoscia 10C/s
+rampa 200.5 25 10
