@@ -10,7 +10,6 @@ KontrolerMnozenia::KontrolerMnozenia
 }
 
 boost::optional <Polozenie> KontrolerMnozenia::coMamLiczyc () {
-	//blokada_.lock();
 	Polozenie pol = std::make_pair (wiersz, kolumna);
 	RozmiarMacierzy rozmiar = this->m3_.rozmiar();
 	if( wiersz < std::get<0>(rozmiar) ) {
@@ -22,7 +21,6 @@ boost::optional <Polozenie> KontrolerMnozenia::coMamLiczyc () {
 		}
 		return pol;
 	}
-	//blokada_.unlock();
 }
 
 MnozycielMacierzy::MnozycielMacierzy (KontrolerMnozenia &km): km_(km) {

@@ -1,12 +1,69 @@
 #include <allegro.h>
 #include <iostream>
 #include <math.h>
+#include <stdio.h>
+#include <fstream>
 
 int size = 500;
 int pixTab[500][500];
-int laserSize = 5;
-int laserPower = 10;
+int laserSize = 30;
+int laserPower = 50;
 volatile long speed = 0;
+
+void drawInfo(BITMAP * diagram) {
+	char buffer1 [10];
+	char buffer2 [10];
+	sprintf (buffer1, "Laser size: %d", laserSize);
+	sprintf (buffer2, "Laser power: %d", laserPower);
+	
+	textout_ex(
+             diagram,//Specify bitmap on the screen
+             font,//Use a default font
+             buffer1,//Specify the text to display
+             20,//x-coordinate for text
+             20,//y-coordinate for text
+             makecol(0,0,0),//Color text black
+             -1 );//Transparent text background.
+             
+	 textout_ex(
+			 diagram,//Specify bitmap on the screen
+			 font,//Use a default font
+			 buffer2,//Specify the text to display
+			 20,//x-coordinate for text
+			 40,//y-coordinate for text
+			 makecol(0,0,0),//Color text black
+			 -1 );//Transparent text background.
+}
+
+bool keyrel(int k)
+{
+    static bool initialized = false;
+    static bool keyp[KEY_MAX];
+ 
+    if(!initialized)
+    {
+        // Set the keyp (key pressed) flags to false
+        for(int i = 0; i < KEY_MAX; i++) keyp[i] = false;
+        initialized = true;
+    }
+ 
+    // Now for the checking
+    // Check if the key was pressed
+    if(key[k] && !keyp[k])
+    {
+        // Set the flag and return
+        keyp[k] = true;
+        return false;
+    }
+    else if(!key[k] && keyp[k])
+    {
+        // The key was released
+        keyp[k] = false;
+        return true;
+    }
+    // Nothing happened?
+    return false;
+}
 
 BITMAP *kwadrat_z_kropka ()
 {
@@ -24,6 +81,7 @@ BITMAP *kwadrat_z_kropka ()
 			putpixel (bmp, ii, jj, PIX);
 		}
 	}
+	drawInfo(bmp);
 	return bmp;
 }
 
@@ -71,7 +129,7 @@ void heatTransfer() {
 			addToPixTab(ii+1,jj,-sp/min);
 			addToPixTab(ii,jj+1,-sg/min);
 			addToPixTab(ii,jj-1,-sd/min);
-			tranferHeat(ii-1,jj,ii,jj,sl/min);
+			//tranferHeat(ii-1,jj,ii,jj,sl/min);
 			addToPixTab(ii,jj,sl/min);
 			addToPixTab(ii,jj,sp/min);
 			addToPixTab(ii,jj,sg/min);
@@ -131,25 +189,25 @@ int main() {
 	LOCK_VARIABLE( speed );
 	LOCK_FUNCTION( increment_speed );
 	install_timer();
-	install_int_ex( increment_speed, BPS_TO_TIMER( 30 ) );
+	install_int_ex( increment_speed, BPS_TO_TIMER( 35 ) );
 	
 	while( !key[ KEY_ESC ] ) {
-        if( key[ KEY_LEFT ] ) {
+        if( keyrel(KEY_LEFT) ) {
 			if ( laserSize > 0 )
 				laserSize--;
 		}
    
-		if( key[ KEY_RIGHT ] ) {
+		if( keyrel(KEY_RIGHT) ) {
 			if ( laserSize < 50 )
 				laserSize++;
 		}
 		
-		if( key[ KEY_UP ] )  {
-			if ( laserPower < 50 )
-				laserPower++;
+		if( keyrel(KEY_UP) )  {
+			if ( laserPower < 100 )
+				laserPower+=2;
 		}
 		
-		if( key[ KEY_DOWN ] ) {
+		if( keyrel(KEY_DOWN) ) {
 			if ( laserPower > 0 )
 				laserPower--;
 		}

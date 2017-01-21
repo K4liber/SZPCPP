@@ -18,13 +18,6 @@ Macierz::Macierz (std::istream &is) {
 		wersy.push_back(wers);
 	}
 	
-	/*
-	for (int ii=0;ii<wersy.size();ii++ ) {
-		for (int jj=0;jj<wersy[ii].size();jj++)
-			std::cout<<wersy[ii][jj]<<"\t";
-		std::cout<<std::endl;
-	}*/
-	
 	n_ = wersy.size();
 	m_ = wersy[0].size();
 	mac_ = new int*[n_];

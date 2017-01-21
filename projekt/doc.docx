@@ -1,0 +1,48 @@
+﻿Jan Bielecki
+04.01.2017r.
+
+Projekt “Ogród”
+
+
+1. Opis
+
+	Program do badania algorytu genetycznego na prostym przykładzie. Osobnikiem podlegającym ewolucji jest kwiatek o konkretnych cechach (genach)* :  kształt listka, rozmieszczenie listków, rozmieszczenie korzeni oraz parametrach: liczba listków, wielkość listka, liczba korzeni, liczba osobników. Ustalamy sposób zakończenia przeprowadzania populacji poprzez kolejne genracje (konkretna liczba generacji, ręczne przechodzenie przez kolejne generacje). Program losuje populacje początkową. Kolejne generacje tworzone na podstawie wartości funkcji przystosowania osobników (dobór naturalny), krzyżowanie oraz mutacje. Funkcja przystosowania liczy jak dużo słonka oraz wartości odżywczych wchłania kwiatek na podstawie jego budowy. Wizualizacja każdego z osobników (kwiatków) przy wyborze ręcznego przechodzenia przez kolejne generacje. Po zakończeniu działania programu otrzymujemy statystyki dotyczące maksymalnej wartości osobnika oraz średniej wartości w populacji w funkcji numeru generacji. 
+
+2. Jednostki kompilacji, klasy
+
+	Każda jednostka kompilacji zawiera jedną klase (oprócz main gdzie znajduję sie główna funkcja programu oraz lib gdzie znajdują sie struktury I funckje pomocnicze I linkowanie bibliotek). Jednostki kompilacji:
+
+-main:
+	obsługa pliku wejściowego z parametrami początkowymi
+	głowna pętla programu
+-lib:
+	struktury pomocnicze (m.in structura “Położenie” określająca pixel)
+	funkcje pomocnicze,
+	wizualizacja (funkcje inicjalizujące i deinicijalizujące allegro, 	rysowanie na bitmapie, wyświetlanie na ekran)
+-kwiatek:
+	struktura kwiatka (m.in rozłożenie listków I korzeni)
+	funkcje na kwiatku m.in liczenie wartości funckji przystosowania i 	pomocnicze
+-listek:
+	struktura listka (m.in kształt listka)
+	funkcje na listku i pomocnicze
+-korzen:
+	struktura korzenia (m.in kształt korzenia)
+	funckje na korzeniu i pomocnicze
+-generacja:
+	struktura generacji (m.in. Populacja początkowa)
+	funkcje tworzenia kolejnych generacji (mutacje, krzyżowanie)
+-statystyki:
+	struktura statystyki (m.in. dane o kolejnych generacjach)
+	funkcje obsługi plików wyjściowych ze statystykami
+
+3. Działanie progamu
+
+	Jako pierwszy argument programu wpisujemy nazwę pliku z parametrami (uruchomienie programu bez wrzucenia nazwy, bądź plik o podanej nazwie nie zawiera odpowiednich parametrów – dostajemy informacje o tym jak należy uruchomić program). Przy wybraniu opcji ręcznego przechodznie przez kolejne generacje za pomocą klawiatury obsługujemy przejścia (dzięki czemu możemy obejrzeć wszystkie kwiatki w populacji w każdej z generacji!). Po zakończeniu programu otrzymujemy dwa pliki wyjściowe: max.dat (wartość funkcji przystosowania najlepszego osobnika w populacji w funkcji numeru generacji) oraz average.dat (średnia wartość funkcji przystosowania z populacji w funkcji numeru generacji).
+
+4. Użyte funkcjonalności
+
+	- biblioteka do grafiki 2D: allegro c++
+	- std::vector, std::map
+	- wątki: std::thread
+
+	
